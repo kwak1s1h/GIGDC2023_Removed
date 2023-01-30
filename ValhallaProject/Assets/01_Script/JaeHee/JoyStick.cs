@@ -20,7 +20,7 @@ public class JoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 
     private void Start()
     {
-        outLine = GetComponent<RectTransform>();
+        outLine = gameObject.GetComponent<RectTransform>();
     }
 
     /// <summary>
@@ -54,14 +54,14 @@ public class JoyStick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     /// 드래그 최대치 제한
     /// </summary>
     /// <param name="magnitude"></param>
-    /// <param name="normalized"></param>
-    private void HandleInput(float magnitude, Vector2 normalized)
+    /// <param name="normalised"></param>
+    private void HandleInput(float magnitude, Vector2 normalised)
     {
         if (magnitude > deadZone)
         {
             if (magnitude > 1)
             {
-                input = normalized;
+                input = normalised;
             }
         }
         else
