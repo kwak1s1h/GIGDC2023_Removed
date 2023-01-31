@@ -1,41 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class JoyStick2 : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [SerializeField]
+    private RectTransform handle;
     private RectTransform rect;
-    [SerializeField] private RectTransform handle;
+    [SerializeField, Range(10f, 100f)]
+    private float leverRange;
 
-    [SerializeField, Range(10f, 100f)] private float handleRange;
+    [SerializeField] private Vector3 inputVector;
 
-    private Vector2 inputVector;
-    private bool isInput;
+    [SerializeField] private GameObject player;
 
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
     }
 
+    private void Update()
+    {
+        player.transform.position += inputVector * Time.deltaTime * 5;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Vector2 inputDir = eventData.position - rect.anchoredPosition;
-        Vector2 clampedDir = inputDir.magnitude < handleRange ? inputDir : inputDir.normalized * handleRange;
-        
-        handle.anchoredPosition = clampedDir;
+        ControlJoystickLever(eventData);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 inputDir = eventData.position - rect.anchoredPosition;
-        Vector2 clampedDir = inputDir.magnitude < handleRange ? inputDir : inputDir.normalized * handleRange;
-        
+        ControlJoystickLever(eventData);
+    }
+    public void ControlJoystickLever(PointerEventData eventData)
+    {
+        var inputDir = eventData.position - rect.anchoredPosition;
+        var clampedDir = inputDir.magnitude < leverRange ? inputDir : inputDir.normalized * leverRange;
         handle.anchoredPosition = clampedDir;
+        inputVector = clampedDir / leverRange;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        inputVector = Vector3.zero;
         handle.anchoredPosition = Vector2.zero;
     }
 }

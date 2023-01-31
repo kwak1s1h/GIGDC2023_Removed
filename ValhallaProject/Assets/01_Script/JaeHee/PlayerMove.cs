@@ -30,6 +30,5 @@ public class PlayerMove : MonoBehaviour
     {
         //Vector3 hMovement = Vector3.right * speed * Time.fixedDeltaTime * joyStick.Horizontal;
         //Vector3 vMovement = Vector3.up * speed * Time.fixedDeltaTime * joyStick.Vertical;
-
     }
 }
