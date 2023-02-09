@@ -515,11 +515,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1131430334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ff905aed9142b4b8aa15791601d39e, type: 3}
+  m_Script: {fileID: 11500000, guid: b9f6040f1aca32d4f94ef4ee9b3aa523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   handle: {fileID: 265016122}
-  leverRange: 100
+  leverRange: 50
   inputVector: {x: 0, y: 0, z: 0}
   player: {fileID: 258005088}
 --- !u!1 &1374018514
