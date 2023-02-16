@@ -13,6 +13,7 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private float leverRange;
 
     [SerializeField] private Vector3 inputVector;
+    public Vector3 InputVector => inputVector;
 
     [SerializeField] private GameObject player;
 
