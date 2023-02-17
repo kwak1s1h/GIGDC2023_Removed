@@ -14,6 +14,9 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     [SerializeField] private Vector3 inputVector;
 
+    private Vector3 direction;
+    public Vector3 InputVector => direction;
+
     [SerializeField] private GameObject player;
 
     private void Awake()
@@ -41,6 +44,7 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         var clampedDir = inputDir.magnitude < leverRange ? inputDir : inputDir.normalized * leverRange;
         handle.anchoredPosition = clampedDir;
         inputVector = clampedDir / leverRange;
+        direction = inputVector;
     }
 
     public void OnEndDrag(PointerEventData eventData)
