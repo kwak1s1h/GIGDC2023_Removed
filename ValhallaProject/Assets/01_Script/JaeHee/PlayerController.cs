@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rigid;
 
+    [SerializeField] private GameObject attackEffect;
+
     private void Awake()
     {
         _rigid = GetComponent<Rigidbody2D>();
@@ -33,5 +35,11 @@ public class PlayerController : MonoBehaviour
         _rigid.velocity = Vector3.zero;
         yield return new WaitForSeconds(dashCoolTime);
         canDash = true;
+    }
+
+    public void Attack()
+    {
+        //곽석현이 일을 안한다니까?
+        Debug.Log("재히히 공격");
     }
 }
