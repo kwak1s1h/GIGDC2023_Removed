@@ -12,12 +12,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField][Range(0, 1)] private float dashCoolTime;
     private bool canDash = true;
 
-    private Rigidbody2D _rigid;
-
+    private Rigidbody2D _rigid = null;
+    private Collider2D _col = null;
     private Animator _anim = null;
 
     [SerializeField] private GameObject attackEffect;
     private GameObject attackTarget = null; //°ø°Ý Å¸°Ù
+
     private void Awake()
     {
         _rigid = GetComponent<Rigidbody2D>();
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
         if (canDash == false) return;
         canDash = false;
         _anim.SetBool("IsRunning", true);
+        _col.enabled = false;
         _rigid.AddForce(joyStick.InputVector * dashPower, ForceMode2D.Impulse);
         StartCoroutine(DashStop());
     }
@@ -37,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(dashDuration);
         _anim.SetBool("IsRunning", false);
+        _col.enabled = true;
         _rigid.velocity = Vector3.zero;
         yield return new WaitForSeconds(dashCoolTime);
         canDash = true;
