@@ -19,14 +19,26 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     [SerializeField] private GameObject player;
 
+    private Animator anim = null;
+
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
+        anim = player.GetComponent<Animator>();
     }
 
     private void Update()
     {
         player.transform.position += inputVector * Time.deltaTime * 5;
+
+        if (InputVector.x > 0)
+        {
+            player.transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            player.transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -40,6 +52,7 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     }
     public void ControlJoystickLever(PointerEventData eventData)
     {
+        anim.SetBool("IsRunning", true);
         var inputDir = eventData.position - rect.anchoredPosition;
         var clampedDir = inputDir.magnitude < leverRange ? inputDir : inputDir.normalized * leverRange;
         handle.anchoredPosition = clampedDir;
@@ -49,6 +62,7 @@ public class JoyStick : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        anim.SetBool("IsRunning", false);
         inputVector = Vector3.zero;
         handle.anchoredPosition = Vector2.zero;
     }
