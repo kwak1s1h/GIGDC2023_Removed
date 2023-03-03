@@ -12,19 +12,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField][Range(0, 1)] private float dashCoolTime;
     private bool canDash = true;
 
-    private Rigidbody2D _rigid;
+    private Rigidbody2D _rigid = null;
+    private Collider2D _col = null;
+    private Animator _anim = null;
 
     [SerializeField] private GameObject attackEffect;
     private GameObject attackTarget = null; //공격 타겟
+
     private void Awake()
     {
         _rigid = GetComponent<Rigidbody2D>();
+        _anim = GetComponent<Animator>();
     }
 
     public void Dash()
     {
         if (canDash == false) return;
         canDash = false;
+        _anim.SetBool("IsRunning", true);
+        _col.enabled = false;
         _rigid.AddForce(joyStick.InputVector * dashPower, ForceMode2D.Impulse);
         StartCoroutine(DashStop());
     }
@@ -32,6 +38,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashStop()
     {
         yield return new WaitForSeconds(dashDuration);
+        _anim.SetBool("IsRunning", false);
+        _col.enabled = true;
         _rigid.velocity = Vector3.zero;
         yield return new WaitForSeconds(dashCoolTime);
         canDash = true;
@@ -44,7 +52,7 @@ public class PlayerController : MonoBehaviour
         GameObject obj = Instantiate(attackEffect, transform.position, Quaternion.identity);
         Destroy(obj, 0.2f);
         #endregion
-        
+
         //몬스터 감지하기,가장 가까운 적 탐지
         Collider2D[] cols = Physics2D.OverlapBoxAll(transform.position, new Vector2(5, 5), 0);
 
