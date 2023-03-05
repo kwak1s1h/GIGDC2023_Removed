@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigid = GetComponent<Rigidbody2D>();
         _anim = GetComponent<Animator>();
+        _col = GetComponent<Collider2D>();
     }
 
     public void Dash()
